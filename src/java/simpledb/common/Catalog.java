@@ -23,12 +23,23 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Catalog {
 
+    private class DbFilePkey{
+        public DbFile file;
+        public String pkey;
+
+        public DbFilePkey(DbFile dbfile, String primarykey){
+            file = dbfile;
+            pkey = primarykey;
+        }
+    }
+
+    private HashMap<String, DbFilePkey> catalog;
     /**
      * Constructor.
      * Creates a new, empty catalog.
      */
     public Catalog() {
-        // some code goes here
+        catalog = new HashMap<String, DbFilePkey>();
     }
 
     /**
@@ -41,7 +52,8 @@ public class Catalog {
      * @param pkeyField the name of the primary key field
      */
     public void addTable(DbFile file, String name, String pkeyField) {
-        // some code goes here
+        catalog.put(name, new DbFilePkey(file, pkeyField)); //put automatically replaces previous file with new file in the case of name conflict
+
     }
 
     public void addTable(DbFile file, String name) {
