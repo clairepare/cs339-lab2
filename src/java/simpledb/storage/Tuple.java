@@ -3,6 +3,7 @@ package simpledb.storage;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Tuple maintains information about the contents of a tuple. Tuples have a
@@ -13,6 +14,8 @@ public class Tuple implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private TupleDesc tupleDesc;
+    private RecordId recordId;
+    private Field[] fields;
 
     /**
      * Create a new tuple with the specified schema (type).
@@ -22,7 +25,13 @@ public class Tuple implements Serializable {
      *            instance with at least one field.
      */
     public Tuple(TupleDesc td) {
-        tupleDesc = td;
+        tupleDesc = td; // same object reference
+        recordId = null;
+        fields = new Field[td.numFields()];
+        //loop later
+        for(int i = 0; i < fields.length; i++){
+            fields[i] = null;
+        }
     }
 
     /**
@@ -37,8 +46,7 @@ public class Tuple implements Serializable {
      *         be null.
      */
     public RecordId getRecordId() {
-        // some code goes here
-        return null;
+        return recordId;
     }
 
     /**
@@ -48,7 +56,7 @@ public class Tuple implements Serializable {
      *            the new RecordId for this tuple.
      */
     public void setRecordId(RecordId rid) {
-        // some code goes here
+        recordId = rid;
     }
 
     /**
@@ -60,7 +68,7 @@ public class Tuple implements Serializable {
      *            new value for the field.
      */
     public void setField(int i, Field f) {
-        // some code goes here
+        fields[i] = f;
     }
 
     /**
@@ -70,8 +78,8 @@ public class Tuple implements Serializable {
      *            field index to return. Must be a valid index.
      */
     public Field getField(int i) {
-        // some code goes here
-        return null;
+        return fields[i];
+
     }
 
     /**
@@ -83,8 +91,11 @@ public class Tuple implements Serializable {
      * where \t is any whitespace (except a newline)
      */
     public String toString() {
-        // some code goes here
-        throw new UnsupportedOperationException("Implement this");
+        String ret = "";
+        for(int i = 0; i < fields.length; i++){
+            ret += fields[i] + "\t";
+        }
+        return ret;
     }
 
     /**
@@ -93,8 +104,29 @@ public class Tuple implements Serializable {
      * */
     public Iterator<Field> fields()
     {
-        // some code goes here
-        return null;
+        return new TupleIterator();
+    }
+
+    private class TupleIterator implements Iterator<Field> {
+        private int currentIndex = 0;
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex < fields.length-1;
+        }
+
+        @Override
+        public Field next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return fields[currentIndex++];
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("Remove operation is not supported.");
+        }
     }
 
     /**
@@ -102,6 +134,17 @@ public class Tuple implements Serializable {
      * */
     public void resetTupleDesc(TupleDesc td)
     {
-        // some code goes here
+        Field[] new_fields = new Field[td.numFields()];
+        //loop later
+        for(int i = 0; i < new_fields.length; i++){
+            if (i < tupleDesc.numFields()) {
+                new_fields[i] = fields[i];
+            }
+            else{
+                new_fields[i] = null;
+            }
+        }
+        fields = new_fields;
+        tupleDesc = td;
     }
 }
