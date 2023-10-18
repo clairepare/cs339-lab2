@@ -603,7 +603,6 @@ simpledb.execution.SeqScan
 org.junit.Assert
 simpledb.transaction.TransactionAbortedException
 ||:simpledb.storage.HeapPageId
-java.lang.UnsupportedOperationException
 simpledb.storage.PageId
 simpledb.storage.HeapPageId
 java.lang.Object
@@ -616,7 +615,7 @@ java.lang.Object
 java.io.IOException
 simpledb.transaction.TransactionAbortedException
 ||:simpledb.storage.RecordId
-java.lang.UnsupportedOperationException
+simpledb.storage.PageId
 simpledb.storage.RecordId
 java.lang.Object
 java.io.Serializable
