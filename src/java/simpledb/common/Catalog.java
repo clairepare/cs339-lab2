@@ -25,21 +25,23 @@ public class Catalog {
 
     private class DbFilePkey{
         public DbFile file;
+        public String name;
         public String pkey;
 
-        public DbFilePkey(DbFile dbfile, String primarykey){
+        public DbFilePkey(DbFile dbfile, String tablename, String primarykey){
             file = dbfile;
+            name = tablename;
             pkey = primarykey;
         }
     }
 
-    private HashMap<String, DbFilePkey> catalog;
+    private HashMap<Integer, DbFilePkey> catalog;
     /**
      * Constructor.
      * Creates a new, empty catalog.
      */
     public Catalog() {
-        catalog = new HashMap<String, DbFilePkey>();
+        catalog = new HashMap<Integer, DbFilePkey>();
     }
 
     /**
@@ -52,7 +54,19 @@ public class Catalog {
      * @param pkeyField the name of the primary key field
      */
     public void addTable(DbFile file, String name, String pkeyField) {
-        catalog.put(name, new DbFilePkey(file, pkeyField)); //put automatically replaces previous file with new file in the case of name conflict
+        int fileId = file.getId();
+
+        Iterator<Map.Entry<Integer, DbFilePkey>> iterator = catalog.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry<Integer, DbFilePkey> entry = iterator.next();
+            int key = entry.getKey();
+            DbFilePkey value = entry.getValue();
+            String prevName = value.name;
+            if (prevName.equals(name)){ //name already exists in table
+                catalog.remove(key);
+            }
+        }
+        catalog.put(fileId, new DbFilePkey(file, name, pkeyField));
 
     }
 
@@ -76,8 +90,20 @@ public class Catalog {
      * @throws NoSuchElementException if the table doesn't exist
      */
     public int getTableId(String name) throws NoSuchElementException {
-        // some code goes here
-        return 0;
+        //file.getId() is the identfier of this file/tupledesc param for the calls getTupleDesc and getFile
+
+        Iterator<Map.Entry<Integer, DbFilePkey>> iterator = catalog.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry<Integer, DbFilePkey> entry = iterator.next();
+            int key = entry.getKey();
+            DbFilePkey value = entry.getValue();
+            String currName = value.name;
+            if (currName.equals(name)){ //name already exists in table
+                return key;
+            }
+        }
+        throw new NoSuchElementException("table not found with name " + name);
+        //return -1;
     }
 
     /**
@@ -87,8 +113,12 @@ public class Catalog {
      * @throws NoSuchElementException if the table doesn't exist
      */
     public TupleDesc getTupleDesc(int tableid) throws NoSuchElementException {
-        // some code goes here
-        return null;
+        DbFilePkey value = catalog.get(tableid);
+        if(value == null){
+            throw new NoSuchElementException("no such table with given id " + tableid);
+        }
+        return value.file.getTupleDesc();
+
     }
 
     /**
@@ -98,28 +128,36 @@ public class Catalog {
      *     function passed to addTable
      */
     public DbFile getDatabaseFile(int tableid) throws NoSuchElementException {
-        // some code goes here
-        return null;
+        DbFilePkey value = catalog.get(tableid);
+        if(value == null){
+            throw new NoSuchElementException("no such table with given id " + tableid);
+        }
+        return value.file;
     }
 
     public String getPrimaryKey(int tableid) {
-        // some code goes here
-        return null;
+        DbFilePkey value = catalog.get(tableid);
+        if(value == null){
+            throw new NoSuchElementException("no such table with given id " + tableid);
+        }
+        return value.pkey;
     }
 
     public Iterator<Integer> tableIdIterator() {
-        // some code goes here
-        return null;
+        return catalog.keySet().iterator();
     }
 
     public String getTableName(int id) {
-        // some code goes here
-        return null;
+        DbFilePkey value = catalog.get(id);
+        if(value == null){
+            throw new NoSuchElementException("no such table with given id " + id);
+        }
+        return value.name;
     }
     
     /** Delete all tables from the catalog */
     public void clear() {
-        // some code goes here
+        catalog = new HashMap<Integer, DbFilePkey>();
     }
     
     /**
