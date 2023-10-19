@@ -34,13 +34,18 @@ public class BufferPool {
     constructor instead. */
     public static final int DEFAULT_PAGES = 50;
 
+    private Page[] bufferPool;
+
+    private int poolSize;
+
     /**
      * Creates a BufferPool that caches up to numPages pages.
      *
      * @param numPages maximum number of pages in this buffer pool.
      */
     public BufferPool(int numPages) {
-        // some code goes here
+        bufferPool = new Page[numPages];
+        poolSize = 0;
     }
     
     public static int getPageSize() {
@@ -74,7 +79,20 @@ public class BufferPool {
      */
     public  Page getPage(TransactionId tid, PageId pid, Permissions perm)
         throws TransactionAbortedException, DbException {
-        // some code goes here
+        for(Page p : bufferPool) {
+            if (p.getId().equals(pid)) {
+                return p;
+            }
+        }
+
+        if (bufferPool.length == poolSize) {
+            //no eviction policy yet
+            throw new DbException("pool full");
+        }
+        else {
+            bufferPool[poolSize] = new Page(pid, 4);
+            poolSize++;
+        }
         return null;
     }
 
