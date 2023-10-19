@@ -100,8 +100,7 @@ public class HeapFile implements DbFile {
      * Returns the number of pages in this HeapFile.
      */
     public int numPages() {
-        // some code goes here
-        return 0;
+        return (int)backingFile.length() / BufferPool.getPageSize();
     }
 
     // see DbFile.java for javadocs
@@ -123,8 +122,65 @@ public class HeapFile implements DbFile {
     // see DbFile.java for javadocs
     public DbFileIterator iterator(TransactionId tid) {
         // some code goes here
-        return null;
+        return new DbFileIterator();
     }
 
+    private class HeapFileIterator implements DbFileIterator {
+        private int curPageNo;
+        private HeapPageId currentPid;
+        private BufferPool bp;
+        private TransactionId tid;
+        private Page curPage;
+
+        /**
+         * Opens the iterator
+         * @throws DbException when there are problems opening/accessing the database.
+         */
+        @Override
+        public void open() throws DbException, TransactionAbortedException {
+            curPageNo = 0;
+            currentPid = new HeapPageId(getId(), curPageNo);
+            bp = Database.getBufferPool();
+            tid = new TransactionId();
+            curPage = bp.getPage(tid, currentPid, Permissions.READ_WRITE);
+        }
+
+        /** @return true if there are more tuples available, false if no more tuples or iterator isn't open. */
+        @Override
+        public boolean hasNext() throws DbException, TransactionAbortedException {
+
+            return true;
+        }
+
+        /**
+         * Gets the next tuple from the operator (typically implementing by reading
+         * from a child operator or an access method).
+         *
+         * @return The next tuple in the iterator.
+         * @throws NoSuchElementException if there are no more tuples
+         */
+        @Override
+        public Tuple next() throws DbException, TransactionAbortedException, NoSuchElementException {
+
+            return null;
+        }
+
+        /**
+         * Resets the iterator to the start.
+         * @throws DbException When rewind is unsupported.
+         */
+        @Override
+        public void rewind() throws DbException, TransactionAbortedException {
+
+        }
+
+        /**
+         * Closes the iterator.
+         */
+        @Override
+        public void close() {
+
+        }
+        }
 }
 
