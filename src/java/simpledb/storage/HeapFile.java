@@ -8,6 +8,7 @@ import simpledb.transaction.TransactionAbortedException;
 import simpledb.transaction.TransactionId;
 
 import java.io.*;
+import java.nio.Buffer;
 import java.util.*;
 
 /**
@@ -22,6 +23,11 @@ import java.util.*;
  */
 public class HeapFile implements DbFile {
 
+
+    private File backingFile;
+    private TupleDesc tupleDesc;
+    private int tableId;
+
     /**
      * Constructs a heap file backed by the specified file.
      * 
@@ -30,7 +36,10 @@ public class HeapFile implements DbFile {
      *            file.
      */
     public HeapFile(File f, TupleDesc td) {
-        // some code goes here
+        backingFile = f;
+        tupleDesc = td;
+        tableId = f.getAbsoluteFile().hashCode();
+
     }
 
     /**
@@ -39,8 +48,7 @@ public class HeapFile implements DbFile {
      * @return the File backing this HeapFile on disk.
      */
     public File getFile() {
-        // some code goes here
-        return null;
+        return backingFile;
     }
 
     /**
@@ -53,8 +61,7 @@ public class HeapFile implements DbFile {
      * @return an ID uniquely identifying this HeapFile.
      */
     public int getId() {
-        // some code goes here
-        throw new UnsupportedOperationException("implement this");
+        return tableId;
     }
 
     /**
@@ -63,14 +70,24 @@ public class HeapFile implements DbFile {
      * @return TupleDesc of this DbFile.
      */
     public TupleDesc getTupleDesc() {
-        // some code goes here
-        throw new UnsupportedOperationException("implement this");
+        return tupleDesc;
     }
 
     // see DbFile.java for javadocs
     public Page readPage(PageId pid) {
-        // some code goes here
-        return null;
+        try {
+            RandomAccessFile raf = new RandomAccessFile(backingFile, "r");
+            int offset = BufferPool.getPageSize() * pid.getPageNumber();
+            byte[] d = new byte[BufferPool.getPageSize()];
+            if (raf.read(d, offset, BufferPool.getPageSize()) < BufferPool.getPageSize()) throw new IOException("no such page");
+            HeapPageId hpi = new HeapPageId(pid.getTableId(), pid.getPageNumber());
+            HeapPage ret = new HeapPage(hpi, d);
+            raf.close();
+            return ret;
+        }
+        catch (IOException e) {
+            throw new IllegalArgumentException("couldn't read page");
+        }
     }
 
     // see DbFile.java for javadocs
