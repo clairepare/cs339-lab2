@@ -122,7 +122,7 @@ public class HeapFile implements DbFile {
     // see DbFile.java for javadocs
     public DbFileIterator iterator(TransactionId tid) {
         // some code goes here
-        return new DbFileIterator();
+        return new HeapFileIterator();
     }
 
     private class HeapFileIterator implements DbFileIterator {
@@ -181,6 +181,6 @@ public class HeapFile implements DbFile {
         public void close() {
 
         }
-        }
+    }
 }
 
