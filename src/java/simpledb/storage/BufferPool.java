@@ -90,7 +90,15 @@ public class BufferPool {
             throw new DbException("pool full");
         }
         else {
-            //bufferPool[poolSize] = new Page(pid, 4); broken rn
+            byte[] d = new byte[pageSize];
+            HeapPageId newId = new HeapPageId(pid.getTableId(), pid.getPageNumber());
+            try {
+                bufferPool[poolSize] = new HeapPage(newId, d);
+            }
+            catch (IOException e) {
+                System.out.println(e.toString());
+                return null;
+            }
             poolSize++;
         }
         return null;
