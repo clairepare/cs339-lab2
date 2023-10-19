@@ -300,7 +300,11 @@ public class HeapPage implements Page {
     public int getNumEmptySlots() {
         //I could also just keep an empty slots counter?
         int count = 0;
-
+        for(int i = 0; i < tuples.length; i++){
+            if(!isSlotUsed(i)){
+                count++;
+            }
+        }
         return count;
     }
 
