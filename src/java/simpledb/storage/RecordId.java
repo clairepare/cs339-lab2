@@ -60,7 +60,7 @@ public class RecordId implements Serializable {
         RecordId td = (RecordId) o;
         //same tuple is the same tuplenumber and the same page number
 
-        if(td.getTupleNumber() == this.getTupleNumber() && td.getPageId() == this.getPageId()){
+        if(td.getTupleNumber() == this.getTupleNumber() && td.getPageId().equals(this.getPageId())){
             return true;
         }
         return false;
@@ -74,7 +74,7 @@ public class RecordId implements Serializable {
      */
     @Override
     public int hashCode() {
-        return 31 * this.getTupleNumber() + this.getPageId();
+        return 31 * this.getTupleNumber() + 17 * this.getPageId().getTableId() + this.getPageId().getPageNumber();
     }
 
 }

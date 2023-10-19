@@ -38,6 +38,10 @@ public class BufferPool {
 
     private int poolSize;
 
+    private Page[] bufferPool;
+
+    private int poolSize;
+
     /**
      * Creates a BufferPool that caches up to numPages pages.
      *
@@ -90,7 +94,15 @@ public class BufferPool {
             throw new DbException("pool full");
         }
         else {
-            bufferPool[poolSize] = new Page(pid, 4);
+            byte[] d = new byte[pageSize];
+            HeapPageId newId = new HeapPageId(pid.getTableId(), pid.getPageNumber());
+            try {
+                bufferPool[poolSize] = new HeapPage(newId, d);
+            }
+            catch (IOException e) {
+                System.out.println(e.toString());
+                return null;
+            }
             poolSize++;
         }
         return null;
