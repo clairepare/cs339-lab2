@@ -6,6 +6,7 @@ import simpledb.common.Debug;
 import simpledb.common.Catalog;
 import simpledb.transaction.TransactionId;
 
+//import javax.xml.catalog.Catalog;
 import java.util.*;
 import java.io.*;
 
@@ -24,6 +25,9 @@ public class HeapPage implements Page {
     final byte[] header;
     final Tuple[] tuples;
     final int numSlots;
+
+    //private BufferPool bp;
+    //private Catalog c;
 
     byte[] oldData;
     private final Byte oldDataLock= (byte) 0;
@@ -65,6 +69,8 @@ public class HeapPage implements Page {
         }
         dis.close();
 
+        //c = new Catalog();
+
         setBeforeImage();
     }
 
@@ -72,19 +78,25 @@ public class HeapPage implements Page {
         @return the number of tuples on this page
     */
     private int getNumTuples() {        
-        // some code goes here
-        return 0;
-
+        /*the number of tuples is equal to: <p>
+         *          floor((BufferPool.getPageSize()*8) / (tuple size * 8 + 1))
+         * <p> where tuple size is the size of tuples in this database table,
+         * which can be determined via {@link Catalog#getTupleDesc}.*/
+        int tupleSize = td.getSize();
+        int pageSize = BufferPool.getPageSize(); //since this is a static method no need to instantiate BufferPool
+        return (int)Math.floor((double)(pageSize*8/(tupleSize*8 + 1)));
     }
 
     /**
      * Computes the number of bytes in the header of a page in a HeapFile with each tuple occupying tupleSize bytes
      * @return the number of bytes in the header of a page in a HeapFile with each tuple occupying tupleSize bytes
      */
-    private int getHeaderSize() {        
-        
-        // some code goes here
-        return 0;
+    private int getHeaderSize() {
+        /*The number of 8-bit header words is equal to:
+         * <p>
+         *      ceiling(no. tuple slots / 8)
+         * <p>*/
+        return (int)Math.ceil((double)(numSlots / 8));
                  
     }
     
@@ -117,8 +129,7 @@ public class HeapPage implements Page {
      * @return the PageId associated with this page.
      */
     public HeapPageId getId() {
-    // some code goes here
-    throw new UnsupportedOperationException("implement this");
+        return pid;
     }
 
     /**
@@ -287,16 +298,26 @@ public class HeapPage implements Page {
      * Returns the number of empty slots on this page.
      */
     public int getNumEmptySlots() {
-        // some code goes here
-        return 0;
+        //I could also just keep an empty slots counter?
+        int count = 0;
+
+        return count;
     }
 
     /**
      * Returns true if associated slot on this page is filled.
      */
     public boolean isSlotUsed(int i) {
-        // some code goes here
+        //header is an array of bytes, need to find the corresponding bit in the header
+        int byteNum = (int)i / 8;
+        int bitNum = i % 8;
+        int mask = header[byteNum] & (1 << bitNum); //shifts bit to the left bitNum times
+        //ex: 10101010 & 00010000 = 00000000
+        if(mask != 0){
+            return true;
+        }
         return false;
+        //my first idea, no idea if right
     }
 
     /**
@@ -312,8 +333,33 @@ public class HeapPage implements Page {
      * (note that this iterator shouldn't return tuples in empty slots!)
      */
     public Iterator<Tuple> iterator() {
-        // some code goes here
-        return null;
+        return new TupleIterator();
+    }
+
+    private class TupleIterator implements Iterator<Tuple> {
+        private int currentIndex = 0;
+
+        @Override
+        public boolean hasNext() {
+            while (currentIndex < tuples.length && !isSlotUsed(currentIndex)) {
+                currentIndex++;
+            }
+            return currentIndex < tuples.length;
+        }
+
+        @Override
+        public Tuple next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return tuples[currentIndex++];
+            //need code for checking empty slots
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("Remove operation is not supported.");
+        }
     }
 
 }
