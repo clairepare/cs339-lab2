@@ -38,10 +38,6 @@ public class BufferPool {
 
     private int poolSize;
 
-    private Page[] bufferPool;
-
-    private int poolSize;
-
     /**
      * Creates a BufferPool that caches up to numPages pages.
      *
