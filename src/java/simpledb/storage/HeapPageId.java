@@ -5,8 +5,8 @@ import java.util.Objects;
 /** Unique identifier for HeapPage objects. */
 public class HeapPageId implements PageId {
 
-    private static int tId;
-    private static int pageNumber;
+    private int tId;
+    private int pageNumber;
 
     /**
      * Constructor. Create a page id structure for a specific page of a
@@ -40,7 +40,7 @@ public class HeapPageId implements PageId {
      * @see BufferPool
      */
     public int hashCode() {
-        return this.getTableId() * 31 + this.getPageNumber();
+        return tId * 31 + pageNumber;
     }
 
     /**
@@ -60,7 +60,7 @@ public class HeapPageId implements PageId {
         }
 
         PageId td = (PageId) o;
-        if(td.getTableId() == this.getTableId() && td.getPageNumber() == this.getPageNumber()){
+        if(td.getTableId() == tId && td.getPageNumber() == pageNumber){
             return true;
         }
         return false;
