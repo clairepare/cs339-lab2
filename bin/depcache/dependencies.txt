@@ -108,6 +108,7 @@ simpledb.execution.Predicate
 ||:simpledb.storage.HeapPage
 java.lang.Throwable
 java.io.DataInputStream
+java.lang.IndexOutOfBoundsException
 java.io.ByteArrayOutputStream
 java.lang.System
 [B
@@ -119,12 +120,14 @@ java.io.ByteArrayInputStream
 java.io.DataOutputStream
 simpledb.common.Database
 java.lang.Math
+java.lang.StackTraceElement
 java.lang.String
 java.lang.Byte
 java.util.NoSuchElementException
 java.text.ParseException
 simpledb.storage.HeapPage
 java.lang.invoke.MethodHandles$Lookup
+[Ljava.lang.StackTraceElement;
 simpledb.common.DbException
 simpledb.common.Type
 simpledb.storage.Tuple

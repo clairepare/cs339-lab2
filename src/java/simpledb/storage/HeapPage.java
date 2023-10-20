@@ -56,11 +56,19 @@ public class HeapPage implements Page {
 
         try{
             // allocate and read the header slots of this page
-            header = new byte[getHeaderSize()];
-            for (int i=0; i<header.length; i++)
-                header[i] = dis.readByte();
 
+
+            header = new byte[getHeaderSize()];
             tuples = new Tuple[numSlots];
+
+            //System.out.println("Length of tuples array: " + tuples.length);
+            //System.out.println("Header size: " + header.length);
+            for (int i=0; i<header.length; i++) {
+                //System.out.println("reading header index " + i);
+                header[i] = dis.readByte();
+            }
+
+
             try{
                 // allocate and read the actual records of this page
                 //System.out.println("Expected number of tuples (tuples.length): " + tuples.length);
@@ -83,7 +91,12 @@ public class HeapPage implements Page {
         } catch (IOException ioe) {
             throw new IOException("IO Error while reading page: " + ioe.getMessage(), ioe);
         } catch (Exception e) {
-            throw new RuntimeException("General error creating HeapPage caught by HeapPage: " + (e.getMessage() != null ? e.getMessage() : "Unknown"), e);
+            String st = "";
+            StackTraceElement[] stackTrace = e.getStackTrace();
+            for(StackTraceElement i : stackTrace) {
+                st += i.toString() + "\n";
+            }
+            throw new RuntimeException("hasnext: General error creating HeapPage: " + (e.getMessage() == null ? "Unknown error" : e.getMessage()) +"\n" + st);
         } finally {
             try {
                 dis.close();
@@ -118,8 +131,8 @@ public class HeapPage implements Page {
          * <p>
          *      ceiling(no. tuple slots / 8)
          * <p>*/
-        return (int)Math.ceil((double)(numSlots / 8));
-                 
+        return (int)Math.ceil((numSlots / 8.0));
+
     }
     
     /** Return a view of this page before it was modified
@@ -335,7 +348,12 @@ public class HeapPage implements Page {
      */
     public boolean isSlotUsed(int i) {
         //header is an array of bytes, need to find the corresponding bit in the header
+
         int byteNum = (int)i / 8;
+        //System.out.println(byteNum);
+        if(byteNum >= header.length) {
+            throw new IndexOutOfBoundsException("Byte index " + byteNum + " out of bounds for header of length " + header.length);
+        }
         int bitNum = i % 8;
         int mask = header[byteNum] & (1 << bitNum); //shifts bit to the left bitNum times
         //ex: 10101010 & 00010000 = 00000000
