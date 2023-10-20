@@ -88,7 +88,7 @@ public class HeapPage implements Page {
             for(StackTraceElement i : stackTrace) {
                 st += i.toString() + "     ";
             }
-            throw new RuntimeException("hasnext: General error creating HeapPage: " + (e.getMessage() == null ? "Unknown error" : e.getMessage()) +"\n" + st);
+            throw new RuntimeException("hasnext: General error creating HeapPage: " + (e.getMessage() == null ? "Unknown error" : e.getMessage()) +"\t" + st);
         } finally {
             try {
                 dis.close();
@@ -123,7 +123,7 @@ public class HeapPage implements Page {
          * <p>
          *      ceiling(no. tuple slots / 8)
          * <p>*/
-        return (int)Math.ceil((double)(numSlots / 8));
+        return (int)Math.ceil((numSlots / 8.0));
                  
     }
     
