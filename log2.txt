@@ -1,0 +1,156 @@
+
+compile:
+
+testcompile:
+
+runsystest:
+    [junit] Running simpledb.systemtest.ScanTest
+    [junit] Testsuite: simpledb.systemtest.ScanTest
+    [junit] Tests run: 4, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.229 sec
+    [junit] Tests run: 4, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.229 sec
+    [junit] ------------- Standard Output ---------------
+    [junit] Attempting to read size: 4096
+    [junit] File size: 122880
+    [junit] Reading from offset: 0
+    [junit] Attempting to read size: 4096
+    [junit] File size: 122880
+    [junit] Reading from offset: 4096
+    [junit] Attempting to read size: 4096
+    [junit] File size: 4096
+    [junit] Reading from offset: 0
+    [junit] Attempting to read size: 4096
+    [junit] File size: 4096
+    [junit] Reading from offset: 0
+    [junit] Attempting to read size: 4096
+    [junit] File size: 4096
+    [junit] Reading from offset: 0
+    [junit] Attempting to read size: 4096
+    [junit] File size: 4096
+    [junit] Reading from offset: 0
+    [junit] Attempting to read size: 4096
+    [junit] File size: 4096
+    [junit] Reading from offset: 0
+    [junit] Attempting to read size: 4096
+    [junit] File size: 4096
+    [junit] Reading from offset: 0
+    [junit] Attempting to read size: 4096
+    [junit] File size: 8192
+    [junit] Reading from offset: 0
+    [junit] Attempting to read size: 4096
+    [junit] File size: 8192
+    [junit] Reading from offset: 4096
+    [junit] Attempting to read size: 4096
+    [junit] File size: 8192
+    [junit] Reading from offset: 0
+    [junit] Attempting to read size: 4096
+    [junit] File size: 8192
+    [junit] Reading from offset: 0
+    [junit] ------------- ---------------- ---------------
+    [junit] ------------- Standard Error -----------------
+    [junit] java.lang.IndexOutOfBoundsException
+    [junit] 	at java.base/java.io.RandomAccessFile.readBytes0(Native Method)
+    [junit] 	at java.base/java.io.RandomAccessFile.readBytes(RandomAccessFile.java:400)
+    [junit] 	at java.base/java.io.RandomAccessFile.read(RandomAccessFile.java:434)
+    [junit] 	at simpledb.storage.HeapFile.readPage(HeapFile.java:95)
+    [junit] 	at simpledb.systemtest.ScanTest$1InstrumentedHeapFile.readPage(ScanTest.java:89)
+    [junit] 	at simpledb.storage.BufferPool.getPage(BufferPool.java:95)
+    [junit] 	at simpledb.storage.HeapFile$HeapFileIterator.hasNext(HeapFile.java:203)
+    [junit] 	at simpledb.execution.SeqScan.hasNext(SeqScan.java:130)
+    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:127)
+    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:112)
+    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:105)
+    [junit] 	at simpledb.systemtest.ScanTest.testCache(ScanTest.java:104)
+    [junit] 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+    [junit] 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+    [junit] 	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+    [junit] 	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+    [junit] 	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+    [junit] 	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+    [junit] 	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+    [junit] 	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+    [junit] 	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+    [junit] 	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+    [junit] 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+    [junit] 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+    [junit] 	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+    [junit] 	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+    [junit] 	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+    [junit] 	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+    [junit] 	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+    [junit] 	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+    [junit] 	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+    [junit] 	at junit.framework.JUnit4TestAdapter.run(JUnit4TestAdapter.java:50)
+    [junit] 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:535)
+    [junit] 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.launch(JUnitTestRunner.java:1197)
+    [junit] 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.main(JUnitTestRunner.java:1042)
+    [junit] java.lang.IndexOutOfBoundsException
+    [junit] 	at java.base/java.io.RandomAccessFile.readBytes0(Native Method)
+    [junit] 	at java.base/java.io.RandomAccessFile.readBytes(RandomAccessFile.java:400)
+    [junit] 	at java.base/java.io.RandomAccessFile.read(RandomAccessFile.java:434)
+    [junit] 	at simpledb.storage.HeapFile.readPage(HeapFile.java:95)
+    [junit] 	at simpledb.storage.BufferPool.getPage(BufferPool.java:95)
+    [junit] 	at simpledb.storage.HeapFile$HeapFileIterator.hasNext(HeapFile.java:203)
+    [junit] 	at simpledb.execution.SeqScan.hasNext(SeqScan.java:130)
+    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:127)
+    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:112)
+    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:105)
+    [junit] 	at simpledb.systemtest.ScanTest.validateScan(ScanTest.java:38)
+    [junit] 	at simpledb.systemtest.ScanTest.testSmall(ScanTest.java:49)
+    [junit] 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+    [junit] 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+    [junit] 	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+    [junit] 	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+    [junit] 	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+    [junit] 	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+    [junit] 	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+    [junit] 	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+    [junit] 	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+    [junit] 	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+    [junit] 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+    [junit] 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+    [junit] 	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+    [junit] 	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+    [junit] 	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+    [junit] 	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+    [junit] 	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+    [junit] 	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+    [junit] 	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+    [junit] 	at junit.framework.JUnit4TestAdapter.run(JUnit4TestAdapter.java:50)
+    [junit] 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:535)
+    [junit] 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.launch(JUnitTestRunner.java:1197)
+    [junit] 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.main(JUnitTestRunner.java:1042)
+    [junit] ------------- ---------------- ---------------
+    [junit] 
+    [junit] Testcase: testTupleDesc took 0.065 sec
+    [junit] Testcase: testCache took 0.09 sec
+    [junit] 	Caused an ERROR
+    [junit] Unhandled exception in hasNext(): General error creating HeapPage: Unknown error
+    [junit] simpledb.common.DbException: Unhandled exception in hasNext(): General error creating HeapPage: Unknown error
+    [junit] 	at simpledb.storage.HeapFile$HeapFileIterator.hasNext(HeapFile.java:222)
+    [junit] 	at simpledb.execution.SeqScan.hasNext(SeqScan.java:130)
+    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:127)
+    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:112)
+    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:105)
+    [junit] 	at simpledb.systemtest.ScanTest.testCache(ScanTest.java:104)
+    [junit] 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+    [junit] 
+    [junit] Testcase: testSmall took 0.043 sec
+    [junit] 	Caused an ERROR
+    [junit] Unhandled exception in hasNext(): General error creating HeapPage: Unknown error
+    [junit] simpledb.common.DbException: Unhandled exception in hasNext(): General error creating HeapPage: Unknown error
+    [junit] 	at simpledb.storage.HeapFile$HeapFileIterator.hasNext(HeapFile.java:222)
+    [junit] 	at simpledb.execution.SeqScan.hasNext(SeqScan.java:130)
+    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:127)
+    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:112)
+    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:105)
+    [junit] 	at simpledb.systemtest.ScanTest.validateScan(ScanTest.java:38)
+    [junit] 	at simpledb.systemtest.ScanTest.testSmall(ScanTest.java:49)
+    [junit] 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+    [junit] 
+    [junit] Testcase: testRewind took 0.005 sec
+
+BUILD FAILED
+/Users/clairepare/Dropbox/My Mac (MacBook-Pro.attlocal.net)/Desktop/Northwestern/CS 339/cs339-lab2/build.xml:269: The following error occurred while executing this line:
+/Users/clairepare/Dropbox/My Mac (MacBook-Pro.attlocal.net)/Desktop/Northwestern/CS 339/cs339-lab2/build.xml:63: Test simpledb.systemtest.ScanTest failed
+
+Total time: 0 seconds
