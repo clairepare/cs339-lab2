@@ -1,0 +1,32 @@
+
+compile:
+   [depend] The class simpledb.HeapPageReadTest in file /Users/clairepare/Dropbox/My Mac (MacBook-Pro.attlocal.net)/Desktop/Northwestern/CS 339/cs339-lab2/bin/src/simpledb/HeapPageReadTest.class is out of date due to simpledb.storage.HeapPage but has not been deleted because its source file could not be determined
+   [depend] The class simpledb.HeapFileReadTest in file /Users/clairepare/Dropbox/My Mac (MacBook-Pro.attlocal.net)/Desktop/Northwestern/CS 339/cs339-lab2/bin/src/simpledb/HeapFileReadTest.class is out of date due to simpledb.storage.HeapPage but has not been deleted because its source file could not be determined
+   [depend] Deleted 5 out of date files in 0 seconds
+    [javac] Compiling 3 source files to /Users/clairepare/Dropbox/My Mac (MacBook-Pro.attlocal.net)/Desktop/Northwestern/CS 339/cs339-lab2/bin/src
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 8
+    [javac] warning: [options] source value 8 is obsolete and will be removed in a future release
+    [javac] warning: [options] To suppress warnings about obsolete options, use -Xlint:-options.
+    [javac] /Users/clairepare/Dropbox/My Mac (MacBook-Pro.attlocal.net)/Desktop/Northwestern/CS 339/cs339-lab2/src/java/simpledb/storage/HeapPage.java:143: warning: [synchronization] attempt to synchronize on an instance of a value-based class
+    [javac]             synchronized(oldDataLock)
+    [javac]             ^
+    [javac] /Users/clairepare/Dropbox/My Mac (MacBook-Pro.attlocal.net)/Desktop/Northwestern/CS 339/cs339-lab2/src/java/simpledb/storage/HeapPage.java:157: warning: [synchronization] attempt to synchronize on an instance of a value-based class
+    [javac]         synchronized(oldDataLock)
+    [javac]         ^
+    [javac] 5 warnings
+
+testcompile:
+
+systemtest:
+    [junit] Running simpledb.systemtest.ScanTest
+    [junit] Testsuite: simpledb.systemtest.ScanTest
+    [junit] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.688 sec
+    [junit] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.688 sec
+    [junit] 
+    [junit] Testcase: testTupleDesc took 0.068 sec
+    [junit] Testcase: testCache took 0.214 sec
+    [junit] Testcase: testSmall took 0.393 sec
+    [junit] Testcase: testRewind took 0.003 sec
+
+BUILD SUCCESSFUL
+Total time: 2 seconds
