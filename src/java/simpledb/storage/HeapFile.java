@@ -167,7 +167,7 @@ public class HeapFile implements DbFile {
                 tupleIter = curPage.iterator();
             }
             catch (Exception e) {
-                throw new DbException("open: couldn't access DB " + e.getMessage());
+                throw new DbException("open: couldn't access DB, error: " + e.getMessage());
             }
         }
 
