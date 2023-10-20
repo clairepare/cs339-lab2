@@ -91,8 +91,13 @@ public class BufferPool {
         }
         else {
             DbFile f = Database.getCatalog().getDatabaseFile(pid.getTableId());
+            Page p = f.readPage(pid);
+            if (p == null) {
+                throw new DbException("why is the page null?");
+            }
+            bufferPool[poolSize] = p;
             poolSize++;
-            return f.readPage(pid);
+            return p;
         }
     }
 
