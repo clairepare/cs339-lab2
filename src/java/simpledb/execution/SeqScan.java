@@ -20,6 +20,11 @@ public class SeqScan implements OpIterator {
 
     private static final long serialVersionUID = 1L;
 
+    private TransactionId tId;
+    private int tableId;
+    private TupleDesc td;
+    private String tAlias;
+
     /**
      * Creates a sequential scan over the specified table as a part of the
      * specified transaction.
@@ -37,7 +42,11 @@ public class SeqScan implements OpIterator {
      *            tableAlias.null, or null.null).
      */
     public SeqScan(TransactionId tid, int tableid, String tableAlias) {
-        // some code goes here
+        tId = tid;
+        tableId = tableid;
+        //get tupledesc from catalog
+        td = Database.getCatalog().getTupleDesc(tableId);
+        tAlias = tableAlias;
     }
 
     /**
@@ -46,7 +55,7 @@ public class SeqScan implements OpIterator {
      *       be the actual name of the table in the catalog of the database
      * */
     public String getTableName() {
-        return null;
+        return Database.getCatalog().getTableName(tableId);
     }
 
     /**
@@ -54,8 +63,7 @@ public class SeqScan implements OpIterator {
      * */
     public String getAlias()
     {
-        // some code goes here
-        return null;
+        return tAlias;
     }
 
     /**
@@ -71,7 +79,9 @@ public class SeqScan implements OpIterator {
      *            tableAlias.null, or null.null).
      */
     public void reset(int tableid, String tableAlias) {
-        // some code goes here
+        tableId = tableid;
+        tAlias = tableAlias;
+        td = Database.getCatalog().getTupleDesc(tableId);
     }
 
     public SeqScan(TransactionId tid, int tableId) {
@@ -93,8 +103,13 @@ public class SeqScan implements OpIterator {
      *         prefixed with the tableAlias string from the constructor.
      */
     public TupleDesc getTupleDesc() {
-        // some code goes here
-        return null;
+        Type[] newTypes = new Type[td.numFields()];
+        String[] newFields = new String[td.numFields()];
+        for(int i = 0; i < newFields.length; i++){
+            newFields[i] = "" + tAlias + "." + td.getFieldName(i);
+            newTypes[i] = td.getFieldType(i);
+        }
+        return new TupleDesc(newTypes, newFields);
     }
 
     public boolean hasNext() throws TransactionAbortedException, DbException {
