@@ -63,8 +63,15 @@ public class HeapPage implements Page {
             tuples = new Tuple[numSlots];
             try{
                 // allocate and read the actual records of this page
-                for (int i=0; i<tuples.length; i++)
+                //System.out.println("Expected number of tuples (tuples.length): " + tuples.length);
+                //System.out.println("Actual data length: " + data.length);
+                //System.out.println("Header size: " + getHeaderSize());
+                //System.out.println("Tuple size: " + td.getSize());
+
+                for (int i=0; i<tuples.length; i++) {
+                    //System.out.println("Processing tuple at slot: " + i);
                     tuples[i] = readNextTuple(dis,i);
+                }
             }catch(NoSuchElementException e){
                 e.printStackTrace();
                 throw new RuntimeException("unable to read tuples");
@@ -76,7 +83,7 @@ public class HeapPage implements Page {
         } catch (IOException ioe) {
             throw new IOException("IO Error while reading page: " + ioe.getMessage(), ioe);
         } catch (Exception e) {
-            throw new RuntimeException("General error creating HeapPage: " + (e.getMessage() != null ? e.getMessage() : "Unknown"), e);
+            throw new RuntimeException("General error creating HeapPage caught by HeapPage: " + (e.getMessage() != null ? e.getMessage() : "Unknown"), e);
         } finally {
             try {
                 dis.close();

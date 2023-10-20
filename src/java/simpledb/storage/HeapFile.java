@@ -80,8 +80,8 @@ public class HeapFile implements DbFile {
             int offset = BufferPool.getPageSize() * pid.getPageNumber();
 
             long fileSize = raf.length();
-            System.out.println("File size: " + fileSize);
-            System.out.println("Reading from offset: " + offset);
+            //System.out.println("File size: " + fileSize);
+            //System.out.println("Reading from offset: " + offset);
 
             if (offset + BufferPool.getPageSize() > fileSize) {
                 raf.close();
@@ -167,7 +167,7 @@ public class HeapFile implements DbFile {
                 tupleIter = curPage.iterator();
             }
             catch (Exception e) {
-                throw new DbException("couldn't access DB " + e.getMessage());
+                throw new DbException("open: couldn't access DB " + e.getMessage());
             }
         }
 
@@ -201,13 +201,17 @@ public class HeapFile implements DbFile {
                     } catch (IOException e) {
                         throw new DbException("IO error while creating HeapPage: " + e.getMessage());
                     }catch (Exception e) {
-                            e.printStackTrace();  // This will print the entire stack trace of the exception to the console.
-                            throw new DbException("General error creating HeapPage: " + (e.getMessage() == null ? "Unknown error" : e.getMessage()));
+                        String st = "";
+                        StackTraceElement[] stackTrace = e.getStackTrace();
+                        for(StackTraceElement i : stackTrace) {
+                            st += i.toString() + "     ";
                         }
+                        throw new DbException("hasnext: General error creating HeapPage: " + (e.getMessage() == null ? "Unknown error" : e.getMessage()) +"\n" + st);
+                    }
 
 
 
-                        return true;
+                    return true;
                 } else {
                     return false;
                 }
@@ -240,7 +244,7 @@ public class HeapFile implements DbFile {
          */
         @Override
         public void rewind() throws DbException, TransactionAbortedException {
-            //just basically running open 
+            //just basically running open
             try {
                 curPageNo = 0;
                 currentPid = new HeapPageId(getId(), curPageNo);
