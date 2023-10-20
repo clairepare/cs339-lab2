@@ -83,7 +83,12 @@ public class HeapPage implements Page {
         } catch (IOException ioe) {
             throw new IOException("IO Error while reading page: " + ioe.getMessage(), ioe);
         } catch (Exception e) {
-            throw new RuntimeException("General error creating HeapPage caught by HeapPage: " + (e.getMessage() != null ? e.getMessage() : "Unknown"), e);
+            String st = "";
+            StackTraceElement[] stackTrace = e.getStackTrace();
+            for(StackTraceElement i : stackTrace) {
+                st += i.toString() + "     ";
+            }
+            throw new RuntimeException("hasnext: General error creating HeapPage: " + (e.getMessage() == null ? "Unknown error" : e.getMessage()) +"\n" + st);
         } finally {
             try {
                 dis.close();
