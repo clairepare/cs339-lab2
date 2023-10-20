@@ -78,20 +78,36 @@ public class HeapFile implements DbFile {
         try {
             RandomAccessFile raf = new RandomAccessFile(backingFile, "r");
             int offset = BufferPool.getPageSize() * pid.getPageNumber();
+
+            long fileSize = raf.length();
+            System.out.println("File size: " + fileSize);
+            System.out.println("Reading from offset: " + offset);
+
+            if (offset + BufferPool.getPageSize() > fileSize) {
+                raf.close();
+                throw new IOException("attempt to read past the end of the file");
+            }
+
+            raf.seek(offset); // set the file pointer to the desired offset
+
             byte[] d = new byte[BufferPool.getPageSize()];
-            if (raf.read(d, offset, BufferPool.getPageSize()) < BufferPool.getPageSize()) {
+
+            int bytesRead = raf.read(d, 0, BufferPool.getPageSize());
+
+            if (bytesRead < BufferPool.getPageSize()) {
                 raf.close();
                 throw new IOException("no such page");
             }
+
             HeapPageId hpi = new HeapPageId(pid.getTableId(), pid.getPageNumber());
             HeapPage ret = new HeapPage(hpi, d);
             raf.close();
             return ret;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new IllegalArgumentException("couldn't read page");
         }
     }
+
 
     // see DbFile.java for javadocs
     public void writePage(Page page) throws IOException {
@@ -158,38 +174,48 @@ public class HeapFile implements DbFile {
         /** @return true if there are more tuples available, false if no more tuples or iterator isn't open. */
         @Override
         public boolean hasNext() throws DbException, TransactionAbortedException {
-            //unopened
+            // Unopened
             if (tupleIter == null) {
                 return false;
             }
 
-            //more tuples on this page?
-            //if so, we're good
+            // More tuples on this page?
             if (tupleIter.hasNext()) {
                 return true;
             }
-            //if not, we have to see if there's more pages in the file
-            else {
-                try {
-                    curPageNo++;
-                    if (curPageNo < numPages()) {
-                        //if all this succeeds, we have a new page and are also good
-                        currentPid = new HeapPageId(tableId, curPageNo);
-                        tid = new TransactionId();
+
+            // If not, check for more pages in the file
+            try {
+                curPageNo++;
+                if (curPageNo < numPages()) {
+                    currentPid = new HeapPageId(tableId, curPageNo);
+                    tid = new TransactionId();
+
+                    // Try fetching the page
+                    try {
                         Page p = bp.getPage(tid, currentPid, Permissions.READ_WRITE);
                         curPage = new HeapPage(currentPid, p.getPageData());
                         tupleIter = curPage.iterator();
+                    } catch (DbException e) {
+                        throw new DbException("Error fetching page from buffer pool: " + e.getMessage());
+                    } catch (IOException e) {
+                        throw new DbException("IO error while creating HeapPage: " + e.getMessage());
+                    }catch (Exception e) {
+                            e.printStackTrace();  // This will print the entire stack trace of the exception to the console.
+                            throw new DbException("General error creating HeapPage: " + (e.getMessage() == null ? "Unknown error" : e.getMessage()));
+                        }
+
+
+
                         return true;
-                    }
-                    else {
-                        return false;
-                    }
+                } else {
+                    return false;
                 }
-                catch (Exception e) {
-                    throw new DbException("Page fetching issue");
-                }
+            } catch (Exception e) {
+                throw new DbException("Unhandled exception in hasNext(): " + e.getMessage());
             }
         }
+
 
         /**
          * Gets the next tuple from the operator (typically implementing by reading

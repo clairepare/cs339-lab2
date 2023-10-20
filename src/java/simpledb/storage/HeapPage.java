@@ -54,21 +54,36 @@ public class HeapPage implements Page {
         this.numSlots = getNumTuples();
         DataInputStream dis = new DataInputStream(new ByteArrayInputStream(data));
 
-        // allocate and read the header slots of this page
-        header = new byte[getHeaderSize()];
-        for (int i=0; i<header.length; i++)
-            header[i] = dis.readByte();
-        
-        tuples = new Tuple[numSlots];
         try{
-            // allocate and read the actual records of this page
-            for (int i=0; i<tuples.length; i++)
-                tuples[i] = readNextTuple(dis,i);
-        }catch(NoSuchElementException e){
-            e.printStackTrace();
-        }
-        dis.close();
+            // allocate and read the header slots of this page
+            header = new byte[getHeaderSize()];
+            for (int i=0; i<header.length; i++)
+                header[i] = dis.readByte();
 
+            tuples = new Tuple[numSlots];
+            try{
+                // allocate and read the actual records of this page
+                for (int i=0; i<tuples.length; i++)
+                    tuples[i] = readNextTuple(dis,i);
+            }catch(NoSuchElementException e){
+                e.printStackTrace();
+                throw new RuntimeException("unable to read tuples");
+
+            }
+
+        } catch (EOFException eof) {
+            throw new RuntimeException("Unexpected end of file while reading page.", eof);
+        } catch (IOException ioe) {
+            throw new IOException("IO Error while reading page: " + ioe.getMessage(), ioe);
+        } catch (Exception e) {
+            throw new RuntimeException("General error creating HeapPage: " + (e.getMessage() != null ? e.getMessage() : "Unknown"), e);
+        } finally {
+            try {
+                dis.close();
+            } catch (IOException e) {
+                // Log or ignore the error during closing
+            }
+        }
         //c = new Catalog();
 
         setBeforeImage();
