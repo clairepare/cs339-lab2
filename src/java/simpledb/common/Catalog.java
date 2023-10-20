@@ -63,7 +63,7 @@ public class Catalog {
             DbFilePkey value = entry.getValue();
             String prevName = value.name;
             if (prevName.equals(name)){ //name already exists in table
-                catalog.remove(key);
+                iterator.remove();
             }
         }
         catalog.put(fileId, new DbFilePkey(file, name, pkeyField));
