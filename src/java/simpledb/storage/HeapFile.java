@@ -144,7 +144,7 @@ public class HeapFile implements DbFile {
         public void open() throws DbException, TransactionAbortedException {
             try {
                 curPageNo = 0;
-                currentPid = new HeapPageId(getId(), curPageNo);
+                currentPid = new HeapPageId(tableId, curPageNo);
                 tid = new TransactionId();
                 Page p = bp.getPage(tid, currentPid, Permissions.READ_WRITE);
                 curPage = new HeapPage(currentPid, p.getPageData());
@@ -174,7 +174,7 @@ public class HeapFile implements DbFile {
                     curPageNo++;
                     if (curPageNo < numPages()) {
                         //if all this succeeds, we have a new page and are also good
-                        currentPid = new HeapPageId(getId(), curPageNo);
+                        currentPid = new HeapPageId(tableId, curPageNo);
                         tid = new TransactionId();
                         Page p = bp.getPage(tid, currentPid, Permissions.READ_WRITE);
                         curPage = new HeapPage(currentPid, p.getPageData());
