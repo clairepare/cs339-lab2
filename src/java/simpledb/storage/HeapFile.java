@@ -79,7 +79,10 @@ public class HeapFile implements DbFile {
             RandomAccessFile raf = new RandomAccessFile(backingFile, "r");
             int offset = BufferPool.getPageSize() * pid.getPageNumber();
             byte[] d = new byte[BufferPool.getPageSize()];
-            if (raf.read(d, offset, BufferPool.getPageSize()) < BufferPool.getPageSize()) throw new IOException("no such page");
+            if (raf.read(d, offset, BufferPool.getPageSize()) < BufferPool.getPageSize()) {
+                raf.close();
+                throw new IOException("no such page");
+            }
             HeapPageId hpi = new HeapPageId(pid.getTableId(), pid.getPageNumber());
             HeapPage ret = new HeapPage(hpi, d);
             raf.close();
@@ -127,10 +130,11 @@ public class HeapFile implements DbFile {
 
     private class HeapFileIterator implements DbFileIterator {
         private int curPageNo;
-        private HeapPageId currentPid;
-        private BufferPool bp;
+        private HeapPageId currentPid = null;
+        private BufferPool bp = Database.getBufferPool();
         private TransactionId tid;
-        private Page curPage;
+        private HeapPage curPage;
+        private Iterator<Tuple> tupleIter = null;
 
         /**
          * Opens the iterator
@@ -138,18 +142,53 @@ public class HeapFile implements DbFile {
          */
         @Override
         public void open() throws DbException, TransactionAbortedException {
-            curPageNo = 0;
-            currentPid = new HeapPageId(getId(), curPageNo);
-            bp = Database.getBufferPool();
-            tid = new TransactionId();
-            curPage = bp.getPage(tid, currentPid, Permissions.READ_WRITE);
+            try {
+                curPageNo = 0;
+                currentPid = new HeapPageId(getId(), curPageNo);
+                tid = new TransactionId();
+                Page p = bp.getPage(tid, currentPid, Permissions.READ_WRITE);
+                curPage = new HeapPage(currentPid, p.getPageData());
+                tupleIter = curPage.iterator();
+            }
+            catch (Exception e) {
+                throw new DbException("couldn't access DB");
+            }
         }
 
         /** @return true if there are more tuples available, false if no more tuples or iterator isn't open. */
         @Override
         public boolean hasNext() throws DbException, TransactionAbortedException {
-
-            return true;
+            //unopened
+            if (tupleIter == null) {
+                return false;
+            }
+            
+            //more tuples on this page?
+            //if so, we're good
+            if (tupleIter.hasNext()) {
+                return true;
+            }
+            //if not, we have to see if there's more pages in the file
+            else {
+                try {
+                    curPageNo++;
+                    if (curPageNo < numPages()) {
+                        //if all this succeeds, we have a new page and are also good
+                        currentPid = new HeapPageId(getId(), curPageNo);
+                        tid = new TransactionId();
+                        Page p = bp.getPage(tid, currentPid, Permissions.READ_WRITE);
+                        curPage = new HeapPage(currentPid, p.getPageData());
+                        tupleIter = curPage.iterator();
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                catch (Exception e) {
+                    throw new DbException("Page fetching issue");
+                }
+            }
         }
 
         /**
@@ -161,8 +200,12 @@ public class HeapFile implements DbFile {
          */
         @Override
         public Tuple next() throws DbException, TransactionAbortedException, NoSuchElementException {
-
-            return null;
+            if (hasNext()) {
+                return tupleIter.next();
+            }
+            else {
+                throw new NoSuchElementException("no more tuples");
+            }
         }
 
         /**
@@ -171,7 +214,18 @@ public class HeapFile implements DbFile {
          */
         @Override
         public void rewind() throws DbException, TransactionAbortedException {
-
+            //just basically running open 
+            try {
+                curPageNo = 0;
+                currentPid = new HeapPageId(getId(), curPageNo);
+                tid = new TransactionId();
+                Page p = bp.getPage(tid, currentPid, Permissions.READ_WRITE);
+                curPage = new HeapPage(currentPid, p.getPageData());
+                tupleIter = curPage.iterator();
+            }
+            catch (Exception e) {
+                throw new DbException("couldn't access DB");
+            }
         }
 
         /**
@@ -179,7 +233,7 @@ public class HeapFile implements DbFile {
          */
         @Override
         public void close() {
-
+            //nothing's needed?
         }
     }
 }
