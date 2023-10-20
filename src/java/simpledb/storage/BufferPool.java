@@ -80,7 +80,7 @@ public class BufferPool {
     public Page getPage(TransactionId tid, PageId pid, Permissions perm)
         throws TransactionAbortedException, DbException {
         for(Page p : bufferPool) {
-            if (p.getId().equals(pid)) {
+            if (p != null && p.getId().equals(pid)) {
                 return p;
             }
         }
@@ -91,6 +91,7 @@ public class BufferPool {
         }
         else {
             DbFile f = Database.getCatalog().getDatabaseFile(pid.getTableId());
+            poolSize++;
             return f.readPage(pid);
         }
     }
