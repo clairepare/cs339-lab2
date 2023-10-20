@@ -667,7 +667,6 @@ simpledb.storage.HeapFile$HeapFileIterator
 simpledb.storage.DbFile
 simpledb.storage.HeapPageId
 simpledb.storage.HeapFile
-java.lang.Math
 java.lang.Object
 java.lang.invoke.StringConcatFactory
 simpledb.transaction.TransactionAbortedException

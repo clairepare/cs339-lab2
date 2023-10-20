@@ -259,7 +259,10 @@ public class HeapFile implements DbFile {
          */
         @Override
         public void close() {
-            //nothing's needed?
+            tupleIter = null;
+            currentPid = null;
+            curPage = null;
+            curPageNo = -1;  // setting to an invalid value
         }
     }
 }

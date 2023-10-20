@@ -12,252 +12,26 @@ compile:
 
 testcompile:
 
-runsystest:
-    [junit] Running simpledb.systemtest.ScanTest
-    [junit] Testsuite: simpledb.systemtest.ScanTest
-    [junit] Tests run: 4, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.427 sec
-    [junit] Tests run: 4, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.427 sec
+runtest:
+    [junit] Running simpledb.HeapFileReadTest
+    [junit] Testsuite: simpledb.HeapFileReadTest
+    [junit] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.112 sec
+    [junit] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.112 sec
     [junit] ------------- Standard Output ---------------
-    [junit] File size: 122880
-    [junit] Reading from offset: 0
-    [junit] File size: 122880
-    [junit] Reading from offset: 4096
-    [junit] File size: 122880
-    [junit] Reading from offset: 8192
-    [junit] File size: 122880
-    [junit] Reading from offset: 12288
-    [junit] File size: 122880
-    [junit] Reading from offset: 16384
-    [junit] File size: 122880
-    [junit] Reading from offset: 20480
-    [junit] File size: 122880
-    [junit] Reading from offset: 24576
-    [junit] File size: 122880
-    [junit] Reading from offset: 28672
-    [junit] File size: 122880
-    [junit] Reading from offset: 32768
-    [junit] File size: 122880
-    [junit] Reading from offset: 36864
-    [junit] File size: 122880
-    [junit] Reading from offset: 40960
-    [junit] File size: 122880
-    [junit] Reading from offset: 45056
-    [junit] File size: 122880
-    [junit] Reading from offset: 49152
-    [junit] File size: 122880
-    [junit] Reading from offset: 53248
-    [junit] File size: 122880
-    [junit] Reading from offset: 57344
-    [junit] File size: 122880
-    [junit] Reading from offset: 61440
-    [junit] File size: 122880
-    [junit] Reading from offset: 65536
-    [junit] File size: 122880
-    [junit] Reading from offset: 69632
-    [junit] File size: 122880
-    [junit] Reading from offset: 73728
-    [junit] File size: 122880
-    [junit] Reading from offset: 77824
-    [junit] File size: 122880
-    [junit] Reading from offset: 81920
-    [junit] File size: 122880
-    [junit] Reading from offset: 86016
-    [junit] File size: 122880
-    [junit] Reading from offset: 90112
-    [junit] File size: 122880
-    [junit] Reading from offset: 94208
-    [junit] File size: 122880
-    [junit] Reading from offset: 98304
-    [junit] File size: 122880
-    [junit] Reading from offset: 102400
-    [junit] File size: 122880
-    [junit] Reading from offset: 106496
-    [junit] File size: 122880
-    [junit] Reading from offset: 110592
-    [junit] File size: 122880
-    [junit] Reading from offset: 114688
-    [junit] File size: 122880
-    [junit] Reading from offset: 118784
-    [junit] File size: 122880
-    [junit] Reading from offset: 0
-    [junit] File size: 122880
-    [junit] Reading from offset: 4096
-    [junit] File size: 122880
-    [junit] Reading from offset: 8192
-    [junit] File size: 122880
-    [junit] Reading from offset: 12288
-    [junit] File size: 122880
-    [junit] Reading from offset: 16384
-    [junit] File size: 122880
-    [junit] Reading from offset: 20480
-    [junit] File size: 122880
-    [junit] Reading from offset: 24576
-    [junit] File size: 122880
-    [junit] Reading from offset: 28672
-    [junit] File size: 122880
-    [junit] Reading from offset: 32768
-    [junit] File size: 122880
-    [junit] Reading from offset: 36864
-    [junit] File size: 122880
-    [junit] Reading from offset: 40960
-    [junit] File size: 122880
-    [junit] Reading from offset: 45056
-    [junit] File size: 122880
-    [junit] Reading from offset: 49152
-    [junit] File size: 122880
-    [junit] Reading from offset: 53248
-    [junit] File size: 122880
-    [junit] Reading from offset: 57344
-    [junit] File size: 122880
-    [junit] Reading from offset: 61440
-    [junit] File size: 122880
-    [junit] Reading from offset: 65536
-    [junit] File size: 122880
-    [junit] Reading from offset: 69632
-    [junit] File size: 122880
-    [junit] Reading from offset: 73728
-    [junit] File size: 122880
-    [junit] Reading from offset: 77824
     [junit] File size: 4096
     [junit] Reading from offset: 0
     [junit] File size: 4096
-    [junit] Reading from offset: 0
-    [junit] File size: 4096
-    [junit] Reading from offset: 0
-    [junit] File size: 4096
-    [junit] Reading from offset: 0
-    [junit] File size: 4096
-    [junit] Reading from offset: 0
-    [junit] File size: 4096
-    [junit] Reading from offset: 0
-    [junit] File size: 8192
-    [junit] Reading from offset: 0
-    [junit] File size: 8192
-    [junit] Reading from offset: 4096
-    [junit] File size: 8192
-    [junit] Reading from offset: 0
-    [junit] File size: 8192
-    [junit] Reading from offset: 4096
-    [junit] File size: 8192
-    [junit] Reading from offset: 0
-    [junit] File size: 8192
-    [junit] Reading from offset: 4096
-    [junit] File size: 28672
-    [junit] Reading from offset: 0
-    [junit] File size: 28672
-    [junit] Reading from offset: 4096
-    [junit] File size: 28672
-    [junit] Reading from offset: 8192
-    [junit] File size: 28672
-    [junit] Reading from offset: 12288
-    [junit] File size: 28672
-    [junit] Reading from offset: 16384
-    [junit] File size: 28672
-    [junit] Reading from offset: 20480
-    [junit] File size: 28672
-    [junit] Reading from offset: 24576
-    [junit] File size: 4096
-    [junit] Reading from offset: 0
-    [junit] File size: 4096
-    [junit] Reading from offset: 0
-    [junit] File size: 4096
-    [junit] Reading from offset: 0
-    [junit] File size: 8192
-    [junit] Reading from offset: 0
-    [junit] File size: 8192
-    [junit] Reading from offset: 4096
-    [junit] File size: 8192
-    [junit] Reading from offset: 0
-    [junit] File size: 8192
-    [junit] Reading from offset: 4096
-    [junit] File size: 8192
-    [junit] Reading from offset: 0
-    [junit] File size: 8192
-    [junit] Reading from offset: 4096
-    [junit] File size: 12288
-    [junit] Reading from offset: 0
-    [junit] File size: 12288
-    [junit] Reading from offset: 4096
-    [junit] File size: 12288
-    [junit] Reading from offset: 8192
-    [junit] File size: 12288
-    [junit] Reading from offset: 0
-    [junit] File size: 12288
-    [junit] Reading from offset: 4096
-    [junit] File size: 12288
-    [junit] Reading from offset: 8192
-    [junit] File size: 12288
-    [junit] Reading from offset: 0
-    [junit] File size: 12288
-    [junit] Reading from offset: 4096
-    [junit] File size: 12288
-    [junit] Reading from offset: 8192
-    [junit] File size: 57344
-    [junit] Reading from offset: 0
-    [junit] File size: 57344
-    [junit] Reading from offset: 4096
-    [junit] File size: 57344
-    [junit] Reading from offset: 8192
-    [junit] File size: 57344
-    [junit] Reading from offset: 12288
-    [junit] File size: 57344
-    [junit] Reading from offset: 16384
-    [junit] File size: 57344
-    [junit] Reading from offset: 20480
-    [junit] File size: 57344
-    [junit] Reading from offset: 24576
-    [junit] File size: 57344
-    [junit] Reading from offset: 28672
-    [junit] File size: 57344
-    [junit] Reading from offset: 32768
-    [junit] File size: 57344
-    [junit] Reading from offset: 36864
-    [junit] File size: 57344
-    [junit] Reading from offset: 40960
-    [junit] File size: 57344
-    [junit] Reading from offset: 45056
-    [junit] File size: 57344
-    [junit] Reading from offset: 49152
-    [junit] File size: 57344
-    [junit] Reading from offset: 53248
-    [junit] File size: 4096
-    [junit] Reading from offset: 0
-    [junit] File size: 8192
     [junit] Reading from offset: 0
     [junit] File size: 8192
     [junit] Reading from offset: 0
     [junit] ------------- ---------------- ---------------
     [junit] 
-    [junit] Testcase: testTupleDesc took 0.061 sec
-    [junit] Testcase: testCache took 0.217 sec
-    [junit] 	Caused an ERROR
-    [junit] Unhandled exception in hasNext(): Error fetching page from buffer pool: pool full
-    [junit] simpledb.common.DbException: Unhandled exception in hasNext(): Error fetching page from buffer pool: pool full
-    [junit] 	at simpledb.storage.HeapFile$HeapFileIterator.hasNext(HeapFile.java:215)
-    [junit] 	at simpledb.execution.SeqScan.hasNext(SeqScan.java:130)
-    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:127)
-    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:112)
-    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:105)
-    [junit] 	at simpledb.systemtest.ScanTest.testCache(ScanTest.java:109)
-    [junit] 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-    [junit] 
-    [junit] Testcase: testSmall took 0.103 sec
-    [junit] 	Caused an ERROR
-    [junit] couldn't access DB General error creating HeapPage: Index 42 out of bounds for length 42
-    [junit] simpledb.common.DbException: couldn't access DB General error creating HeapPage: Index 42 out of bounds for length 42
-    [junit] 	at simpledb.storage.HeapFile$HeapFileIterator.open(HeapFile.java:170)
-    [junit] 	at simpledb.execution.SeqScan.open(SeqScan.java:96)
-    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:126)
-    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:112)
-    [junit] 	at simpledb.systemtest.SystemTestUtil.matchTuples(SystemTestUtil.java:105)
-    [junit] 	at simpledb.systemtest.ScanTest.validateScan(ScanTest.java:38)
-    [junit] 	at simpledb.systemtest.ScanTest.testSmall(ScanTest.java:49)
-    [junit] 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-    [junit] 
-    [junit] Testcase: testRewind took 0.016 sec
+    [junit] Testcase: getTupleDesc took 0.072 sec
+    [junit] Testcase: numPages took 0.002 sec
+    [junit] Testcase: readPage took 0.011 sec
+    [junit] Testcase: getId took 0.002 sec
+    [junit] Testcase: testIteratorBasic took 0.005 sec
+    [junit] Testcase: testIteratorClose took 0.009 sec
 
-BUILD FAILED
-/Users/clairepare/Dropbox/My Mac (MacBook-Pro.attlocal.net)/Desktop/Northwestern/CS 339/cs339-lab2/build.xml:269: The following error occurred while executing this line:
-/Users/clairepare/Dropbox/My Mac (MacBook-Pro.attlocal.net)/Desktop/Northwestern/CS 339/cs339-lab2/build.xml:63: Test simpledb.systemtest.ScanTest failed
-
+BUILD SUCCESSFUL
 Total time: 1 second
