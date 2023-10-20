@@ -91,8 +91,8 @@ public class SeqScan implements OpIterator {
 
     public void open() throws DbException, TransactionAbortedException {
         try{
-            DbFile file = Database.getCatalog().getDatabaseFile(tableId);
-            iter = file.iterator();
+            //HeapFile file =
+            iter = Database.getCatalog().getDatabaseFile(tableId).iterator(tId);
             iter.open();
         }
         catch(NoSuchElementException e){
