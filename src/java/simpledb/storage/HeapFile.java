@@ -201,8 +201,12 @@ public class HeapFile implements DbFile {
                     } catch (IOException e) {
                         throw new DbException("IO error while creating HeapPage: " + e.getMessage());
                     }catch (Exception e) {
-                            e.printStackTrace();  // This will print the entire stack trace of the exception to the console.
-                            throw new DbException("General error creating HeapPage: " + (e.getMessage() == null ? "Unknown error" : e.getMessage()));
+                            String st = "";
+                            StackTraceElement[] stackTrace = e.getStackTrace();
+                            for(StackTraceElement i : stackTrace) {
+                                st += i.toString() + "\n";
+                            }
+                            throw new DbException("General error creating HeapPage: " + (e.getMessage() == null ? "Unknown error" : e.getMessage()) +"\n" + st);
                         }
 
 

@@ -85,7 +85,7 @@ public class BufferPool {
             }
         }
 
-        if (bufferPool.length == poolSize) {
+        if (bufferPool.length <= poolSize) {
             //no eviction policy yet
             throw new DbException("pool full");
         }
